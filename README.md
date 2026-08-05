@@ -4,7 +4,7 @@
 
 **Advanced Safety & Predictive Intelligence Layer for Flight-Ready Systems**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: PolyForm Noncommercial 1.0.0](https://img.shields.io/badge/License-PolyForm%20Noncommercial--1.0.0-orange.svg)](LICENSE)
 [![CI](https://github.com/dfeen87/HLV-RAPS/actions/workflows/ci.yml/badge.svg)](https://github.com/dfeen87/HLV-RAPS/actions/workflows/ci.yml)
 [![C++](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://isocpp.org/)
 [![CMake](https://img.shields.io/badge/CMake-3.10+-064F8C.svg)](https://cmake.org/)
@@ -526,15 +526,23 @@ I would like to acknowledge **Microsoft Copilot**, **Anthropic Claude**, **Googl
 
 ## License
 
-This project is now **100% open-source under the MIT License**.
+This project is licensed under the **PolyForm Noncommercial License 1.0.0**.
 
-You may use, modify, and distribute this software under the terms of the included `LICENSE` file.
+Under these terms, you are free to use, modify, and distribute this software for any **noncommercial purpose**.
 
+### Key Terms:
+- **Permitted Purposes**: Any noncommercial purpose is permitted. This includes:
+  - **Personal Use**: Research, experiment, testing, personal study, hobby projects, and amateur pursuits, provided there is no anticipated commercial application.
+  - **Noncommercial Organizations**: Use by educational institutions, charitable organizations, public research organizations, public safety or health organizations, environmental protection organizations, or government institutions.
+- **Notices**: You must include the original terms or their URL, along with any `Required Notice` provided with the software, in any copies or distributions.
+- **Commercial Use**: Commercial use, development, or deployment is strictly prohibited under this license.
+
+For full license details, please see the included [`LICENSE`](LICENSE) file.
 
 ---
 
 ## Enterprise Consulting & Integration
-This architecture is fully open-source under the MIT License. If your organization requires custom scaling, proprietary integration, or dedicated technical consulting to deploy these models at an enterprise level, please reach out at: dfeen87@gmail.com
+This architecture is available under the PolyForm Noncommercial License 1.0.0. If your organization requires a commercial license, custom scaling, proprietary integration, or dedicated technical consulting to deploy these models at an enterprise level, please reach out at: dfeen87@gmail.com
 
 <div align="center">
 
