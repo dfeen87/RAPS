@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-HLV-RAPS REST API Client Example
+RAPS REST API Client Example
 
-Demonstrates how to query the HLV-RAPS Flight Middleware REST API
+Demonstrates how to query the RAPS Flight Middleware REST API
 for observability and telemetry data.
 
 Usage:
@@ -21,7 +21,7 @@ import urllib.error
 
 
 class RapsApiClient:
-    """Client for HLV-RAPS REST API"""
+    """Client for RAPS REST API"""
     
     def __init__(self, host: str = "localhost", port: int = 8080):
         """Initialize API client
@@ -344,7 +344,7 @@ def monitor_loop(client: RapsApiClient, interval: float = 2.0):
             # Clear screen (works on most terminals)
             print("\033[2J\033[H", end='')
             
-            print(f"HLV-RAPS Telemetry Monitor - {time.strftime('%Y-%m-%d %H:%M:%S')}")
+            print(f"RAPS Telemetry Monitor - {time.strftime('%Y-%m-%d %H:%M:%S')}")
             
             # Quick status
             try:
@@ -379,7 +379,7 @@ def main():
     host = sys.argv[1] if len(sys.argv) > 1 else "localhost"
     port = int(sys.argv[2]) if len(sys.argv) > 2 else 8080
     
-    print(f"Connecting to HLV-RAPS API at {host}:{port}")
+    print(f"Connecting to RAPS API at {host}:{port}")
     
     # Create client
     client = RapsApiClient(host, port)

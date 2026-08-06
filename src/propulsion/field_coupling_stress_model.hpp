@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
-// HLV Math: Field coupling stress grows exponentially with
-// combined high fields and time dilation deviation,
+// Classical Propulsion Math: System coupling stress grows exponentially with
+// combined high input parameters and nozzle expansion deviation,
 // penalized by low stability.
 inline float compute_field_coupling_stress(
     const SpacetimeModulationState& state) {

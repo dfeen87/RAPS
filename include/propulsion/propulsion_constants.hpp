@@ -20,20 +20,20 @@ static constexpr float MAX_SYSTEM_POWER_DRAW_GW = 500.0f;
 static constexpr float MAX_SPACETIME_CURVATURE_MAGNITUDE = 100.0f;
 
 // =====================================================
-// HLV Propulsion Math Constants
+// Classical Propulsion Math Constants
 // =====================================================
 
-// --- Curvature & Dilation Physics ---
+// --- Pressure & Thermal Expansion Dynamics ---
 static constexpr float WARP_CURVATURE_CUBIC_SCALAR = 0.8f;
 static constexpr float FLUX_CURVATURE_QUADRATIC_SCALAR = 0.4f;
 static constexpr float CURVATURE_TIME_DILATION_EXPONENT_BASE = 0.05f;
 static constexpr float FLUID_LEVEL_DAMPING_FACTOR = 0.1f;
 
-// --- Gravity Physics ---
+// --- Exhaust Thrust Vector Dynamics ---
 static constexpr float FLUX_GRAVITY_BASE_SCALAR = 0.5f;
 static constexpr float WARP_GRAVITY_MODULATION_SCALAR = 0.1f;
 
-// --- Coupling Stress & Stability ---
+// --- Structural Stress & Mechanical Stability ---
 static constexpr float COUPLING_STRESS_EXPONENT_SCALAR = 0.2f;
 static constexpr float STABILITY_STRESS_QUADRATIC_SCALAR = 0.5f;
 static constexpr float STABILITY_CURVATURE_CUBIC_SCALAR = 0.005f;

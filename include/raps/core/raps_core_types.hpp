@@ -26,7 +26,7 @@ constexpr float AILEE_CONFIDENCE_ACCEPTED   = 0.90f;
 constexpr float AILEE_CONFIDENCE_BORDERLINE = 0.70f;
 constexpr float AILEE_GRACE_THRESHOLD       = 0.72f;
 
-// AILEE Consensus / HLV Targets
+// AILEE Consensus / Propulsion Targets
 static constexpr float NOMINAL_ALTITUDE_TARGET_M     = 100000.0f;
 static constexpr float NOMINAL_VELOCITY_TARGET_M_S   = 7000.0f;
 static constexpr float ACCEPT_POSITION_DEV_M         = 500.0f;
@@ -134,7 +134,7 @@ struct RollbackPlan {
 
 namespace RAPSVersion {
     constexpr uint32_t MAJOR = 3;
-    constexpr uint32_t MINOR = 3;
+    constexpr uint32_t MINOR = 5;
     constexpr uint32_t PATCH = 0;
-    constexpr const char* STRING = "3.3.0";
+    constexpr const char* STRING = "3.5.0";
 }

@@ -1,5 +1,5 @@
-#ifndef HLV_FIELD_DYNAMICS_HPP
-#define HLV_FIELD_DYNAMICS_HPP
+#ifndef RAPS_FIELD_DYNAMICS_HPP
+#define RAPS_FIELD_DYNAMICS_HPP
 
 #include <vector>
 #include <array>
@@ -10,10 +10,10 @@
 #include <numeric>
 #include <iostream>
 
-#include "hlv/hlv_constants.hpp"
+#include "propulsion/propulsion_constants.hpp"
 
 // =====================================================
-// HLV Framework Mathematical Constants
+// Classical Framework Mathematical Constants
 // =====================================================
 
 constexpr float TRIADIC_TIME_PHASE_COUPLING  = 0.15f;
@@ -34,12 +34,9 @@ constexpr float TCC_COUPLING_J         = 0.25f;
 // =====================================================
 
 constexpr float MAX_FLUX_BIAS           = 5.0f;
-// MAX_WARP_FIELD_STRENGTH and ANTIMATTER_BURN_RATE_GW_TO_KG_PER_MS
-// are defined in include/hlv/hlv_constants.hpp — do not redefine here.
-// RAPSConfig safety thresholds are defined in include/config/raps_safety_limits.hpp.
 
 // =====================================================
-// HLV Triadic Time
+// Classical Propulsion Dynamic State Evolution
 // =====================================================
 
 struct TriadicTime {
@@ -65,7 +62,7 @@ struct TriadicTime {
 };
 
 // =====================================================
-// Oscillatory Prefactor A(t)
+// Thermal Vibration Prefactor A(t)
 // =====================================================
 
 struct OscillatoryPrefactor {
@@ -82,7 +79,7 @@ struct OscillatoryPrefactor {
 };
 
 // =====================================================
-// Quasicrystal Dispersion
+// Dynamic Stress Dispersion
 // =====================================================
 
 struct QuasicrystalDispersion {
@@ -112,7 +109,7 @@ struct QuasicrystalDispersion {
 };
 
 // =====================================================
-// Single-Cell Resonance
+// Combustion Chamber Resonance (CCR)
 // =====================================================
 
 struct SingleCellResonance {
@@ -143,7 +140,7 @@ struct SingleCellResonance {
 // Core State Structures
 // =====================================================
 
-namespace hlv_field {
+namespace raps_dynamics {
 
 struct SpacetimeModulationState {
     float warp_field_strength          = 0.0f;
@@ -154,7 +151,7 @@ struct SpacetimeModulationState {
 
     TriadicTime triadic_time;
     SingleCellResonance scr;
-    float hlv_stability = 1.0f;
+    float raps_stability = 1.0f;
 };
 
 struct SpacetimeModulationCommand {
@@ -188,7 +185,7 @@ public:
 };
 
 // =====================================================
-// HLV-Integrated PDT Engine
+// PDT Engine for Classical Propulsion
 // =====================================================
 
 class PDTEngine {
@@ -223,7 +220,7 @@ public:
             QuasicrystalDispersion{}.directional_stability(n.warp_field_strength)
             * n.scr.energy();
 
-        n.hlv_stability = n.triadic_time.stability_metric();
+        n.raps_stability = n.triadic_time.stability_metric();
         n.timestamp_ms += dt_ms;
 
         return n;
@@ -248,7 +245,7 @@ public:
                    ? PredictionResult::Status::PREDICTED_ESE
                    : PredictionResult::Status::NOMINAL;
 
-        r.confidence = s.hlv_stability;
+        r.confidence = s.raps_stability;
         r.timestamp_ms = s.timestamp_ms;
 
         return r;
@@ -259,6 +256,6 @@ private:
     std::mt19937 rng_;
 };
 
-} // namespace hlv_field
+} // namespace raps_dynamics
 
-#endif // HLV_FIELD_DYNAMICS_HPP
+#endif // RAPS_FIELD_DYNAMICS_HPP

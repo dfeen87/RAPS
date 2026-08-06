@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
-// HLV Math: Curvature as a non-linear function of fields
+// Classical Propulsion Math: Chamber stress and loading as a non-linear function of thrust inputs and exhaust deflection
 inline float compute_spacetime_curvature(
     const SpacetimeModulationState& state) {
 

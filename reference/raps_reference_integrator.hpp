@@ -1,16 +1,16 @@
 //
 ═══════════════════════════════════════════════════════
 ════════════════════════
-// HLV-INTEGRATED PREDICTIVE DIGITAL TWIN ENGINE (PDTEngine)
+// RAPS-INTEGRATED PREDICTIVE DIGITAL TWIN ENGINE (PDTEngine)
 // RAPS v1.0 - Resonant Amplification and Phase Synchronization Architecture
 //
 ═══════════════════════════════════════════════════════
 ════════════════════════
 //
-// This implementation represents the complete integration of Marcel Krüger's
-// Helix-Light-Vortex (HLV) mathematical framework into the RAPS predictive
+// This implementation represents the complete integration of RAPS classical
+// dynamical mathematical framework into the RAPS predictive
 // propulsion system. Where the original PDTEngine relied on placeholder physics
-// and simplified curvature models, this version implements the five fundamental
+// and simplified models, this version implements the five fundamental
 // mathematical pillars that govern resonance, stability, and flow control in
 // advanced propulsion systems.
 //
@@ -29,7 +29,7 @@
 // with Lagrangian L_TCC = Σ L_SCR - J(ψ₁ψ₂ψ₃ + c.c.), enabling coherent multi-
 // node flow and force amplification beyond what isolated cells could achieve.
 //
-// The PDTEngine combines these HLV structures with machine learning residual
+// The PDTEngine combines these RAPS structures with machine learning residual
 // correction and Monte Carlo uncertainty quantification. Control laws are now
 // modulated by A(t), making system responsiveness vary naturally with oscillatory
 // cycles. Stability constraints from SCR modes limit control authority near
@@ -37,10 +37,10 @@
 // stability combined with SCR energy content, replacing arbitrary placeholder
 // formulas with physics grounded in the framework's mathematical foundation.
 //
-// This engine performs stepwise simulation with HLV-aware state propagation,
+// This engine performs stepwise simulation with RAPS-aware state propagation,
 // multi-run Monte Carlo predictions that incorporate triadic time noise, and
 // online training that adapts to residual errors while preserving the underlying
-// HLV structure. The result is a self-improving, resonance-aware predictive twin
+// RAPS structure. The result is a self-improving, resonance-aware predictive twin
 // that respects the actual stability windows, phase-locking behavior, and flow
 // dynamics encoded in the mathematics, enabling autonomous decision-making for
 // advanced propulsion systems operating in regimes where conventional models fail.
@@ -51,10 +51,10 @@
 // ⚠️ REFERENCE ONLY — This file is a standalone amalgamation for review/documentation.
 // DO NOT include in production builds. Use the modular headers under include/.
 #ifdef RAPS_PRODUCTION_BUILD
-#error "Do not include hlv_reference_integrator.hpp in production builds."
+#error "Do not include raps_reference_integrator.hpp in production builds."
 #endif
-#ifndef HLV_PDT_ENGINE_HPP
-#define HLV_PDT_ENGINE_HPP
+#ifndef RAPS_PDT_ENGINE_HPP
+#define RAPS_PDT_ENGINE_HPP
 #include <vector>
 #include <array>
 #include <cstdint>
@@ -64,29 +64,25 @@
 #include <random>
 #include <numeric>
 #include <iostream>
-// ==================== HLV Framework Mathematical Constants
-====================
-constexpr float TRIADIC_TIME_PHASE_COUPLING = 0.15f; // φ(t) synchronization
-strength
-constexpr float TRIADIC_TIME_MEMORY_COUPLING = 0.08f; // χ(t) memory mode
-strength
+// ==================== RAPS Framework Mathematical Constants ====================
+constexpr float TRIADIC_TIME_PHASE_COUPLING = 0.15f; // φ(t) synchronization strength
+constexpr float TRIADIC_TIME_MEMORY_COUPLING = 0.08f; // χ(t) memory mode strength
 constexpr float OSC_PREFACTOR_EPSILON = 0.12f; // ε fast oscillation amplitude
 constexpr float OSC_PREFACTOR_ETA = 0.06f; // η slow modulation amplitude
 constexpr float OSC_FAST_OMEGA = 2.0f * M_PI * 5.0f; // ω fast frequency (5 Hz)
-constexpr float OSC_SLOW_OMEGA_CHI = 2.0f * M_PI * 0.5f; // ω_χ slow frequency (0.5
-Hz)
+constexpr float OSC_SLOW_OMEGA_CHI = 2.0f * M_PI * 0.5f; // ω_χ slow frequency (0.5 Hz)
 constexpr float QUASICRYSTAL_MASS_TERM = 1.0f; // m² baseline in dispersion
 constexpr float SCR_WAVE_NUMBER = 1.5f; // k for Single-Cell Resonance
 constexpr float TCC_COUPLING_J = 0.25f; // J tri-cell coupling constant
 // ==================== RAPS System Constants ====================
 constexpr float MAX_WARP_FIELD_STRENGTH = 10.0f;
 constexpr float MAX_FLUX_BIAS = 5.0f;
-constexpr float ANTIMATTER_BURN_RATE_GW_TO_KG_PER_MS = 1e-6f;
+constexpr float PROPELLANT_BURN_RATE_GW_TO_KG_PER_MS = 1e-6f;
 struct RAPSConfig {
-static constexpr float CRITICAL_ANTIMATTER_KG = 5.0f;
-static constexpr float EMERGENCY_ANTIMATTER_RESERVE_KG = 20.0f;
+static constexpr float CRITICAL_PROPELLANT_KG = 5.0f;
+static constexpr float EMERGENCY_PROPELLANT_RESERVE_KG = 20.0f;
 };
-// ==================== HLV Triadic Time Structure ====================
+// ==================== RAPS Triadic Time Structure ====================
 struct TriadicTime {
 float t; // Coordinate time
 float phi; // Phase synchronization channel φ(t)
@@ -106,7 +102,7 @@ float stability_metric() const {
 return 1.0f / (1.0f + std::abs(phi) + std::abs(chi));
 }
 };
-// ==================== HLV Oscillatory Prefactor A(t) ====================
+// ==================== RAPS Oscillatory Prefactor A(t) ====================
 struct OscillatoryPrefactor {
 float compute(float t) const {
 return 1.0f + OSC_PREFACTOR_EPSILON * std::sin(OSC_FAST_OMEGA * t)
@@ -122,7 +118,7 @@ float resonance_phase(float t) const {
 return std::fmod(OSC_FAST_OMEGA * t, 2.0f * M_PI);
 }
 };
-// ==================== HLV Quasicrystal Dispersion ====================
+// ==================== RAPS Quasicrystal Dispersion ====================
 struct QuasicrystalDispersion {
 // Define quasicrystal directional vectors (simplified 2D projection)
 static constexpr size_t NUM_DIRECTIONS = 5;
@@ -146,7 +142,7 @@ float omega_sq = compute_omega_squared(k_eff, 1.0f);
 return std::sqrt(std::max(0.0f, omega_sq));
 }
 };
-// ==================== HLV Single-Cell Resonance (SCR) ====================
+// ==================== RAPS Single-Cell Resonance (SCR) ====================
 struct SingleCellResonance {
 float amplitude;
 float wave_number;
@@ -167,7 +163,7 @@ return amplitude < 0.95f && frequency > 0.1f;
 }
 }
 };
-// ==================== HLV Tri-Cell Coupling (TCC) ====================
+// ==================== RAPS Tri-Cell Coupling (TCC) ====================
 struct TriCellCoupling {
 std::array<SingleCellResonance, 3> cells;
 float coupling_strength;
@@ -205,12 +201,12 @@ struct SpacetimeModulationState {
 float warp_field_strength = 0.0f;
 float gravito_flux_bias = 0.0f;
 float spacetime_curvature_magnitude = 0.0f;
-float remaining_antimatter_kg = 100.0f;
+float remaining_propellant_kg = 100.0f;
 uint64_t timestamp_ms = 0;
-// HLV Framework state
+// RAPS Framework state
 TriadicTime triadic_time;
 SingleCellResonance scr_mode;
-float hlv_stability = 1.0f;
+float raps_stability = 1.0f;
 };
 struct SpacetimeModulationCommand {
 float target_warp_field_strength = 0.0f;
@@ -264,7 +260,7 @@ private:
 std::vector<std::vector<float>> weights_;
 std::vector<float> bias_;
 };
-// ==================== HLV-Integrated PDT Engine ====================
+// ==================== RAPS-Integrated PDT Engine ====================
 class PDTEngine {
 public:
 PDTEngine() : residual_model_() {
@@ -276,7 +272,7 @@ const SpacetimeModulationCommand& cmd,
 uint32_t step_ms) {
 SpacetimeModulationState next = state;
 float dt_s = static_cast<float>(step_ms) / 1000.0f;
-// === HLV Framework Integration ===
+// === RAPS Framework Integration ===
 // 1. Update Triadic Time
 next.triadic_time.evolve(dt_s, state.warp_field_strength, state.gravito_flux_bias);
 // 2. Compute Oscillatory Prefactor A(t)
@@ -289,7 +285,7 @@ next.scr_mode.update(state.warp_field_strength, next.triadic_time.t, A_mod);
 QuasicrystalDispersion qc_disp;
 float directional_stability = qc_disp.directional_stability(
 state.warp_field_strength, state.gravito_flux_bias);
-// === Control Law with HLV Modulation ===
+// === Control Law with RAPS Modulation ===
 float warp_error = cmd.target_warp_field_strength - state.warp_field_strength;
 float flux_error = cmd.target_gravito_flux_bias - state.gravito_flux_bias;
 // PID gains modulated by A(t) - system responsiveness varies with A(t)
@@ -307,23 +303,23 @@ next.warp_field_strength = std::clamp(next.warp_field_strength, 0.0f,
 MAX_WARP_FIELD_STRENGTH);
 next.gravito_flux_bias = std::clamp(next.gravito_flux_bias, -MAX_FLUX_BIAS,
 MAX_FLUX_BIAS);
-// === Physics Computation with HLV Curvature ===
+// === Physics Computation with RAPS Curvature ===
 float power_draw_GW = next.warp_field_strength * 50.0f;
-float antimatter_consumed = power_draw_GW *
-ANTIMATTER_BURN_RATE_GW_TO_KG_PER_MS * step_ms;
-next.remaining_antimatter_kg = std::max(0.0f, next.remaining_antimatter_kg -
-antimatter_consumed);
+float propellant_consumed = power_draw_GW *
+PROPELLANT_BURN_RATE_GW_TO_KG_PER_MS * step_ms;
+next.remaining_propellant_kg = std::max(0.0f, next.remaining_propellant_kg -
+propellant_consumed);
 // Curvature from quasicrystal dispersion and SCR energy
 next.spacetime_curvature_magnitude = directional_stability * next.scr_mode.energy() *
 0.5f;
-// Overall HLV stability metric
-next.hlv_stability = next.triadic_time.stability_metric() * (stable_window ? 1.0f : 0.7f);
+// Overall RAPS stability metric
+next.raps_stability = next.triadic_time.stability_metric() * (stable_window ? 1.0f : 0.7f);
 // === ML Residual Correction ===
 std::vector<float> features = {
 state.warp_field_strength,
 state.gravito_flux_bias,
 state.spacetime_curvature_magnitude,
-state.remaining_antimatter_kg,
+state.remaining_propellant_kg,
 state.triadic_time.phi,
 state.triadic_time.chi
 };
@@ -363,7 +359,7 @@ remaining_ms -= dt;
 }
 final_warp[run] = projected.warp_field_strength;
 final_curvature[run] = projected.spacetime_curvature_magnitude;
-final_stability[run] = projected.hlv_stability;
+final_stability[run] = projected.raps_stability;
 }
 // Statistical analysis
 float mean_warp = std::accumulate(final_warp.begin(), final_warp.end(), 0.0f) /
@@ -376,7 +372,7 @@ float variance = 0.0f;
 for (float w : final_warp) variance += (w - mean_warp) * (w - mean_warp);
 float stdev = std::sqrt(variance / monte_carlo_runs);
 float uncertainty = std::min(1.0f, stdev / MAX_WARP_FIELD_STRENGTH * 5.0f);
-// Confidence with HLV stability factor
+// Confidence with RAPS stability factor
 float base_confidence = (1.0f - uncertainty) * mean_stab;
 uint32_t ese_count = 0;
 for (float w : final_warp) {
@@ -410,7 +406,7 @@ features.push_back({
 simulated[i].warp_field_strength,
 simulated[i].gravito_flux_bias,
 simulated[i].spacetime_curvature_magnitude,
-simulated[i].remaining_antimatter_kg,
+simulated[i].remaining_propellant_kg,
 simulated[i].triadic_time.phi,
 simulated[i].triadic_time.chi
 });
@@ -422,14 +418,13 @@ simulated[i].spacetime_curvature_magnitude
 });
 }
 residual_model_.train(features, labels);
-std::cout << "[HLV-PDT] Trained on " << features.size() << " samples with triadic time
-integration\n";
+std::cout << "[PDT] Trained on " << features.size() << " samples with triadic time integration\n";
 }
 private:
 MLResidualModel residual_model_;
 std::mt19937 rng_;
 };
-#endif // HLV_PDT_ENGINE_HPP
+#endif // RAPS_PDT_ENGINE_HPP
 //_________________________________________
 #ifndef DETERMINISTIC_SAFETY_MONITOR_HPP
 #define DETERMINISTIC_SAFETY_MONITOR_HPP
@@ -440,7 +435,7 @@ std::mt19937 rng_;
 #include <limits>
 // --- DSM Configuration and Constants ---
 namespace DSM_Config {
-// RAPS Safety Thresholds derived from the HLV Mathematical Pillars
+// RAPS Safety Thresholds derived from the RAPS Mathematical Pillars
 // Pillar Check: Extended Einstein Field Equations (EFE) Limit
 // This is the absolute physical hard limit for preventing a catastrophic event.
 constexpr double MAX_CURVATURE_THRESHOLD_RMAX = 1.0e-12;
@@ -459,7 +454,7 @@ commanded during an Idempotent Rollback.
 struct DsmSensorInputs {
 // EFE Observables (Used to infer the Curvature Scalar R)
 double measured_proper_time_dilation; // T_local / T_reference
-// HLV Mathematical Pillar Observables (Used for immediate stability checks)
+// RAPS Mathematical Pillar Observables (Used for immediate stability checks)
 double measured_oscillatory_prefactor_A_t; // Measured A(t)
 double measured_tcc_coupling_J; // Measured constant J from the TCC assemblies
 // System Status
@@ -472,7 +467,7 @@ public:
 DeterministicSafetyMonitor();
 /**
 * @brief Performs the core, deterministic safety evaluation.
-* Checks all defined safety bounds derived from HLV theory and EFE limits.
+* Checks all defined safety bounds derived from RAPS theory and EFE limits.
 * @param inputs The current sensor readings.
 * @return An integer representing the required safing action.
 */
@@ -493,7 +488,7 @@ bool safing_sequence_active_;
 * @brief Checks the stability conditions governed by A(t) and TCC Coupling J.
 bool checkResonanceStability(double A_t, double J_coupling) const;
 /**
-* @brief Estimates the maximum local curvature scalar R from proper time dilation.
+* @brief Estimates the maximum local curvature scalar R from proper nozzle thermal expansion.
 * Uses a conservative, simplified analytical approximation (fast, independent, and always
 overestimates danger).
 */
@@ -512,7 +507,7 @@ double DeterministicSafetyMonitor::estimateCurvatureScalar(double dilation) cons
 const double R_FACTOR = 1.0e-10;
 double time_stretch = 1.0 - dilation;
 if (time_stretch < 0) {
-// If proper time dilation is reversed, immediately report max danger.
+// If proper nozzle thermal expansion is reversed, immediately report max danger.
 return std::numeric_limits<double>::infinity();
 }
 // Conservative estimation: proportional to the square of the time stretch.
@@ -551,12 +546,12 @@ EXECUTING FULL SHUTDOWN." << std::endl;
 return ACTION_FULL_SHUTDOWN;
 }
 // 2. SECONDARY CHECKS (ROLLBACK - Pre-Failure Warning)
-// Checks based on HLV math pillars to prevent R_max from being violated.
+// Checks based on RAPS math pillars to prevent R_max from being violated.
 if (checkResonanceStability(inputs.measured_oscillatory_prefactor_A_t,
 inputs.measured_tcc_coupling_J)) {
 if (!safing_sequence_active_) {
 safing_sequence_active_ = true;
-std::cerr << "DSM WARNING: HLV PILLAR INSTABILITY DETECTED.
+std::cerr << "DSM WARNING: RAPS PILLAR INSTABILITY DETECTED.
 EXECUTING ROLLBACK." << std::endl;
 }
 return ACTION_ROLLBACK;
@@ -583,7 +578,7 @@ return ACTION_NONE;
 }
 #endif // DETERMINISTIC_SAFETY_MONITOR_HPP
 //________________________________________
-// RAPS GOVERNOR WITH HLV
+// RAPS GOVERNOR WITH RAPS
 import time
 import threading
 import queue
@@ -600,9 +595,9 @@ MIN_CONFIDENCE_FOR_EXECUTION = 0.85
 ITL_QUEUE_MAXSIZE = 8192
 MERKLE_BATCH_SIZE = 32
 SIM_DETERMINISTIC_SEED = None
-# --- HLV MATHEMATICAL PILLAR CONSTANTS (Mirrored from DSM) ---
-# These constants define the stability windows for the HLV framework.
-HLV_CONSTANTS = {
+# --- RAPS MATHEMATICAL PILLAR CONSTANTS (Mirrored from DSM) ---
+# These constants define the stability windows for the RAPS framework.
+RAPS_CONSTANTS = {
 # Pillar Check 1 (EFE Limit): Used by DSM hardware for shutdown.
 "MAX_CURVATURE_THRESHOLD_RMAX": 1.0e-12,
 # Pillar Check 2 (A(t)): Must be above this for resonance stability.
@@ -730,14 +725,14 @@ return optimistic_id
 #
 =====================================================================
 ========
-# HLV Mathematical Stubs (Placeholder for full PPE/PDT modeling)
+# RAPS Mathematical Stubs (Placeholder for full PPE/PDT modeling)
 #
 =====================================================================
 ========
-def hlv_predict_At(current_state: Dict[str, Any], command_set: Dict[str, Any]) -> float:
+def raps_predict_At(current_state: Dict[str, Any], command_set: Dict[str, Any]) -> float:
 """
 STUB: Predicts the Oscillatory Prefactor A(t) based on the commanded state.
-In a full implementation, this uses the complex HLV dynamics (Pillars 1, 2, 3).
+In a full implementation, this uses the complex RAPS dynamics (Pillars 1, 2, 3).
 A(t) is critical for kinetic stability; must be > MIN_ACCEPTABLE_A_T.
 """
 # Placeholder Logic: A(t) decreases with high throttle, increases with low temp
@@ -749,7 +744,7 @@ if valve < -0.04:
 # Simulate a dangerous instability near the boundary
 return random.uniform(0.70, 0.85)
 return baseline + random.uniform(-0.02, 0.02)
-def hlv_predict_J(current_state: Dict[str, Any], command_set: Dict[str, Any]) -> float:
+def raps_predict_J(current_state: Dict[str, Any], command_set: Dict[str, Any]) -> float:
 """
 STUB: Predicts the Tri-Cell Coupling constant J based on the commanded state.
 In a full implementation, this uses the TCC Lagrangian (Pillar 5).
@@ -760,7 +755,7 @@ MAX_TCC_COUPLING_J.
 throttle = command_set.get("throttle_pct", 100.0)
 if throttle > 99.0 and current_state.get("pressure_chamber_a", 0.0) < 2100.0:
 # Simulate a catastrophic TCC runaway when system stress is maximized
-return HLV_CONSTANTS["MAX_TCC_COUPLING_J"] * 1.5
+return RAPS_CONSTANTS["MAX_TCC_COUPLING_J"] * 1.5
 # Nominal J is low
 return random.uniform(50.0, 500.0)
 #
@@ -771,13 +766,13 @@ return random.uniform(50.0, 500.0)
 =====================================================================
 ========
 def fast_state_snapshot() -> Dict[str, Any]:
-"""Retrieves the current measured state, including HLV sensor readings."""
+"""Retrieves the current measured state, including RAPS sensor readings."""
 return {
 "pressure_chamber_a": random.uniform(2000.0, 2500.0),
 "temp_nozzle_b": random.uniform(800.0, 900.0),
 "thrust_command": random.uniform(50.0, 100.0),
 "valve_position": random.uniform(0.1, 0.9),
-# Current measured HLV parameters (used by the DSM hardware)
+# Current measured RAPS parameters (used by the DSM hardware)
 "measured_proper_time_dilation": 1.0 + random.uniform(1e-15, 1e-13),
 "measured_oscillatory_prefactor_A_t": random.uniform(0.95, 1.05),
 "measured_tcc_coupling_J": random.uniform(100.0, 5000.0),
@@ -786,7 +781,7 @@ return {
 def safety_monitor_validate(policy_preflight: Dict[str, Any], current_state: Dict[str, Any]) ->
 bool:
 """
-Governor-level pre-flight safety check, enforcing standard bounds AND HLV stability
+Governor-level pre-flight safety check, enforcing standard bounds AND RAPS stability
 windows.
 """
 cmd = policy_preflight.get("command_set") or {}
@@ -799,21 +794,21 @@ return False
 if policy_preflight.get("rollback") is None:
 itl_commit({"type": "safety_check_fail", "reason": "Missing rollback definition"})
 return False
-# --- 2. HLV Mathematical Pillar Constraint Validation ---
-# The Governor uses its Predictive Digital Twin (PDT) to forecast HLV parameters
+# --- 2. RAPS Mathematical Pillar Constraint Validation ---
+# The Governor uses its Predictive Digital Twin (PDT) to forecast RAPS parameters
 # and ensures the proposed command will not drive A(t) or J outside safe limits.
-predicted_A_t = hlv_predict_At(current_state, cmd)
-if predicted_A_t < HLV_CONSTANTS["MIN_ACCEPTABLE_A_T"]:
+predicted_A_t = raps_predict_At(current_state, cmd)
+if predicted_A_t < RAPS_CONSTANTS["MIN_ACCEPTABLE_A_T"]:
 itl_commit({
-"type": "safety_check_fail_hlv",
+"type": "safety_check_fail_raps",
 "reason": "Predicted A(t) violates stability window (Pillar 2)",
 "predicted_A_t": predicted_A_t
 })
 return False
-predicted_J = hlv_predict_J(current_state, cmd)
-if predicted_J > HLV_CONSTANTS["MAX_TCC_COUPLING_J"]:
+predicted_J = raps_predict_J(current_state, cmd)
+if predicted_J > RAPS_CONSTANTS["MAX_TCC_COUPLING_J"]:
 itl_commit({
-"type": "safety_check_fail_hlv",
+"type": "safety_check_fail_raps",
 "reason": "Predicted J violates TCC coupling limit (Pillar 5)",
 "predicted_J": predicted_J
 })
@@ -982,11 +977,11 @@ preflight = {
 "model_version": pred.model_version
 }
 itl_commit({"type": "policy_preflight", **preflight})
-# CRITICAL HLV SAFETY VALIDATION
-if not safety_monitor_validate(preflight, fast_state): # Pass fast_state for HLV prediction
+# CRITICAL RAPS SAFETY VALIDATION
+if not safety_monitor_validate(preflight, fast_state): # Pass fast_state for RAPS prediction
 itl_commit({"type": "policy_rejected", "policy_id": policy.id, "reason":
-"HLV_VIOLATION", "timestamp_ms": now_ms()})
-trigger_fallback_safe_state(reason="safety_monitor_reject_hlv")
+"STRESS_VIOLATION", "timestamp_ms": now_ms()})
+trigger_fallback_safe_state(reason="safety_monitor_reject_raps")
 return
 tx_id = secrets.token_hex(12)
 itl_commit({"type": "command_pending", "policy_id": policy.id, "tx_id": tx_id,
@@ -1171,7 +1166,7 @@ print("=== RAPS DEMO COMPLETE ===")
 # If you want to run directly:
 if __name__ == "__main__":
 demo_main(run_seconds=3.0, interval_ms=100)
-// HLV Physics Engine Implementation
+// RAPS Physics Engine Implementation
 #include "PropulsionPhysicsEngine.hpp"
 #include <cmath> // For std::sqrt, std::fabs, std::sin, std::cos
 #include <algorithm> // For std::max, std::min
@@ -1186,7 +1181,7 @@ return {0.0f, 0.0f, 0.0f};
 return {vec[0] / magnitude, vec[1] / magnitude, vec[2] / magnitude};
 }
 }
-// Initializes the HLV engine
+// Initializes the RAPS engine
 void PropulsionPhysicsEngine::init() {
 // Nothing to initialize for a stateless predictor.
 }
@@ -1326,7 +1321,7 @@ constexpr size_t MAX_ROLLBACK_STORE = 16;
 constexpr float AILEE_CONFIDENCE_ACCEPTED = 0.90f;
 constexpr float AILEE_CONFIDENCE_BORDERLINE = 0.70f;
 constexpr float AILEE_GRACE_THRESHOLD = 0.72f; // Slightly lower for grace
-// AILEE Consensus Layer Specifics (for HLV Dynamics)
+// AILEE Consensus Layer Specifics (for RAPS Dynamics)
 // Nominal targets are now related to trajectory endpoints
 static constexpr float NOMINAL_ALTITUDE_TARGET_M = 100000.0f; // 100km target
 static constexpr float NOMINAL_VELOCITY_TARGET_M_S = 7000.0f; // 7km/s target
@@ -1416,7 +1411,7 @@ float current_raw_confidence;
 // ITL Entry (compact embedded format - updated payloads)
 struct ITLEntry {
 // --- PAYLOAD DEFINITIONS FOR ITLEntry ---
-// StateSnapshotPayload now references the full HLV state structure
+// StateSnapshotPayload now references the full RAPS state structure
 struct StateSnapshotPayload {
 Hash256 snapshot_hash;
 PhysicsState current_state; // Store the state directly
@@ -1612,7 +1607,7 @@ bool PlatformHAL::flash_read(uint32_t address, void* data, size_t len) {
 std::memset(data, 0, len); // Dummy read
 return true;
 }
-// Actuator interface (STUB) - Assumed to be simplified for the HLV
+// Actuator interface (STUB) - Assumed to be simplified for the RAPS
 bool PlatformHAL::actuator_execute(const char* tx_id, float thrust_kN, float gimbal_angle_rad,
 uint32_t timeout_ms) {
 if (!rng_seeded_) { seed_rng_for_stubs(1); }
@@ -1894,7 +1889,7 @@ current_snapshot_ = new_state;
 // Commit state snapshot to ITL (mock ITL commit)
 // NOTE: In RAPSController, this will be handled after validation.
 }
-// Generates a mock Policy (HLV command) that aims for a nominal state.
+// Generates a mock Policy (RAPS command) that aims for a nominal state.
 PhysicsControlInput PDTEngine::generate_nominal_control(const PhysicsState& current_state)
 const {
 PhysicsControlInput nominal_input;
@@ -2039,7 +2034,7 @@ commit_rollback_plan(fallback_policy, fallback_policy);
 }
 // Checks the predicted state against hard safety bounds
 bool SafetyMonitor::check_safety_bounds(const PhysicsState& state) const {
-// HLV Safety Bounds:
+// RAPS Safety Bounds:
 // 1. Structural Mass Limit
 if (state.mass_kg < PropulsionPhysicsEngine::MIN_MASS_KG) {
 PlatformHAL::metric_emit("safety.mass_fail", state.mass_kg);
@@ -2583,7 +2578,7 @@ return new_state;
 int main() {
 std::cout <<
 "========================================================\n";
-std::cout << " RAPS Kernel HLV Demonstration (RTOS Concepts)\n";
+std::cout << " RAPS Kernel RAPS Demonstration (RTOS Concepts)\n";
 std::cout <<
 "========================================================\n";
 // Initialize Platform HAL (RNG seed)
@@ -2633,7 +2628,7 @@ std::cout <<
 std::cout << "Demo Complete. Check metrics for execution trace.\n";
 return 0;
 }
-// APCU Header with HLV Math Constants
+// APCU Header with RAPS Math Constants
 #pragma once
 #include "PlatformHAL.hpp"
 #include <array>
@@ -2643,15 +2638,15 @@ return 0;
 // For the purpose of this file, we assume RAPSConfig is available.
 namespace RAPSConfig {
 // Critical Limits
-static constexpr float CRITICAL_ANTIMATTER_KG = 10.0f;
-static constexpr float EMERGENCY_ANTIMATTER_RESERVE_KG = 50.0f;
+static constexpr float CRITICAL_PROPELLANT_KG = 10.0f;
+static constexpr float EMERGENCY_PROPELLANT_RESERVE_KG = 50.0f;
 static constexpr float CRITICAL_QUANTUM_FLUID_LITERS = 100.0f;
 static constexpr float EMERGENCY_QUANTUM_FLUID_LITERS = 500.0f;
 static constexpr float CRITICAL_FIELD_COUPLING_THRESHOLD = 0.85f;
 static constexpr float MAX_SUBSPACE_EFFICIENCY = 95.0f;
 }
 // --- Physical Constants ---
-static constexpr float INITIAL_ANTIMATTER_KG = 1000.0f;
+static constexpr float INITIAL_PROPELLANT_KG = 1000.0f;
 static constexpr float INITIAL_QUANTUM_FLUID_LITERS = 10000.0f;
 static constexpr float MIN_POWER_DRAW_GW = 0.5f;
 // Field Limits
@@ -2666,7 +2661,7 @@ G's
 static constexpr float MAX_SYSTEM_POWER_DRAW_GW = 500.0f;
 static constexpr float MAX_SPACETIME_CURVATURE_MAGNITUDE = 100.0f; // Max
 curvature unit
-// --- HLV Propulsion Math Constants ---
+// --- RAPS Propulsion Math Constants ---
 // 1. Curvature & Dilation Physics
 static constexpr float WARP_CURVATURE_CUBIC_SCALAR = 0.8f; // C scales with W^3
 static constexpr float FLUX_CURVATURE_QUADRATIC_SCALAR = 0.4f; // C scales with
@@ -2705,7 +2700,7 @@ for max efficiency
 static constexpr float EFFICIENCY_POWER_VARIANCE_GW = 50.0f; // Variance for
 Gaussian power curve
 // 5. Resource Consumption & Displacement
-static constexpr float ANTIMATTER_BURN_RATE_GW_TO_KG_PER_MS = 1.0e-12f; //
+static constexpr float PROPELLANT_BURN_RATE_GW_TO_KG_PER_MS = 1.0e-12f; //
 Very small burn rate
 static constexpr float QUANTUM_FLUID_BASE_CONSUMPTION_RATE = 1.0e-5f; // L/ms
 static constexpr float QUANTUM_FLUID_CONSUMPTION_CURVATURE_EXPONENT =
@@ -2740,7 +2735,7 @@ float time_dilation_factor;
 float induced_gravity_g;
 float subspace_efficiency_pct;
 double total_displacement_km;
-float remaining_antimatter_kg;
+float remaining_propellant_kg;
 float quantum_fluid_level;
 float field_coupling_stress;
 float spacetime_stability_index;
@@ -2798,7 +2793,7 @@ uint32_t coupling_history_index_;
 Hash256 calculate_state_hash(const SpacetimeModulationState& state) const;
 float compute_pid_output(float error, float& integral, float& previous_error, float kp, float ki,
 float kd, float integral_limit, float elapsed_ms);
-// HLV Math Models (Updated)
+// RAPS Math Models (Updated)
 float compute_capability_scale() const;
 float compute_spacetime_curvature() const;
 float compute_derived_time_dilation() const;
@@ -2818,7 +2813,7 @@ void save_safe_state();
 void enter_emergency_mode();
 void apply_emergency_limits(SpacetimeModulationCommand& command);
 };
-// APCU Implementation with HLV Math
+// APCU Implementation with RAPS Math
 #include "AdvancedPropulsionControlUnit.hpp"
 #include <cmath>
 #include <algorithm>
@@ -2834,7 +2829,7 @@ MIN_POWER_DRAW_GW,
 0.0f, // induced_gravity_g
 0.0f, // subspace_efficiency_pct
 0.0f, // total_displacement_km
-INITIAL_ANTIMATTER_KG,
+INITIAL_PROPELLANT_KG,
 INITIAL_QUANTUM_FLUID_LITERS,
 0.0f, // field_coupling_stress
 1.0f, // spacetime_stability_index
@@ -2869,7 +2864,7 @@ emergency_mode_active_ = false;
 last_safe_state_ = current_propulsion_state_;
 last_safe_state_timestamp_ms_ = PlatformHAL::now_ms();
 PlatformHAL::metric_emit("apcu.initialized", 1.0f,
-"antimatter_kg", std::to_string(INITIAL_ANTIMATTER_KG).c_str());
+"propellant_kg", std::to_string(INITIAL_PROPELLANT_KG).c_str());
 PlatformHAL::metric_emit("apcu.initialized", 1.0f,
 "quantum_fluid_L", std::to_string(INITIAL_QUANTUM_FLUID_LITERS).c_str());
 }
@@ -2884,7 +2879,7 @@ state.time_dilation_factor,
 state.induced_gravity_g,
 state.subspace_efficiency_pct,
 (float)state.total_displacement_km, // Cast double to float for hashing consistency
-state.remaining_antimatter_kg,
+state.remaining_propellant_kg,
 state.quantum_fluid_level
 };
 return PlatformHAL::sha256(hash_input.data(), sizeof(hash_input));
@@ -2946,10 +2941,10 @@ return output;
 float AdvancedPropulsionControlUnit::compute_capability_scale() const {
 float scale = 1.0f;
 // Antimatter constraints (non-linear penalty below 10% capacity)
-if (current_propulsion_state_.remaining_antimatter_kg <
-INITIAL_ANTIMATTER_KG * 0.1f) {
-scale *= std::pow(current_propulsion_state_.remaining_antimatter_kg /
-(INITIAL_ANTIMATTER_KG * 0.1f), 2.0f);
+if (current_propulsion_state_.remaining_propellant_kg <
+INITIAL_PROPELLANT_KG * 0.1f) {
+scale *= std::pow(current_propulsion_state_.remaining_propellant_kg /
+(INITIAL_PROPELLANT_KG * 0.1f), 2.0f);
 scale = std::max(0.05f, scale); // Minimum scale to prevent zero division
 }
 // Quantum fluid constraints (similar non-linear penalty)
@@ -2961,7 +2956,7 @@ scale = std::max(0.05f, scale);
 }
 return std::min(1.0f, scale);
 }
-// HLV Math Update: Curvature is a non-linear function of fields (W^3 and Flux^2)
+// RAPS Math Update: Curvature is a non-linear function of fields (W^3 and Flux^2)
 float AdvancedPropulsionControlUnit::compute_spacetime_curvature() const {
 float W = current_propulsion_state_.warp_field_strength;
 float Phi_g = current_propulsion_state_.gravito_flux_bias;
@@ -2972,7 +2967,7 @@ FLUX_CURVATURE_QUADRATIC_SCALAR);
 return std::min(MAX_SPACETIME_CURVATURE_MAGNITUDE, std::max(0.0f,
 curvature));
 }
-// HLV Math Update: Dilation is an exponential function of curvature, modulated by fluid level
+// RAPS Math Update: Dilation is an exponential function of curvature, modulated by fluid level
 float AdvancedPropulsionControlUnit::compute_derived_time_dilation() const {
 float C = current_propulsion_state_.spacetime_curvature_magnitude;
 float L_fluid = current_propulsion_state_.quantum_fluid_level;
@@ -2985,7 +2980,7 @@ float base_dilation_from_C = 1.0f + (std::exp(C *
 CURVATURE_TIME_DILATION_EXPONENT_BASE) - 1.0f);
 return 1.0f + ((base_dilation_from_C - 1.0f) * fluid_efficiency_mod);
 }
-// HLV Math Update: Gravity is primarily linear with flux, but modulated by the warp field
+// RAPS Math Update: Gravity is primarily linear with flux, but modulated by the thrust intensity field
 magnitude
 float AdvancedPropulsionControlUnit::compute_derived_gravity() const {
 float W = current_propulsion_state_.warp_field_strength;
@@ -2995,7 +2990,7 @@ float gravity = Phi_g * FLUX_GRAVITY_BASE_SCALAR * (1.0f + W *
 WARP_GRAVITY_MODULATION_SCALAR);
 return gravity; // Bounded in update_internal_state
 }
-// HLV Math Update: Stress is an exponential function of combined high fields and dilation
+// RAPS Math Update: Stress is an exponential function of combined high fields and dilation
 deviation, penalized by instability
 float AdvancedPropulsionControlUnit::compute_field_coupling_stress() const {
 float W = current_propulsion_state_.warp_field_strength;
@@ -3046,7 +3041,7 @@ warp_change *= suppression_factor;
 flux_change *= suppression_factor;
 PlatformHAL::metric_emit("apcu.resonance_suppression_active", 1.0f);
 }
-// HLV Math Update: Power scales non-linearly with fields and quadratically with slew rate
+// RAPS Math Update: Power scales non-linearly with fields and quadratically with slew rate
 float AdvancedPropulsionControlUnit::compute_power_draw(
 float warp_slew,
 float flux_slew) const {
@@ -3064,7 +3059,7 @@ POWER_SLEW_PENALTY_EXPONENT) +
 std::pow(std::fabs(flux_slew), POWER_SLEW_PENALTY_EXPONENT));
 return base_power + slew_penalty;
 }
-// HLV Math Update: Efficiency scales with W^2/P and is penalized by Gaussian power draw
+// RAPS Math Update: Efficiency scales with W^2/P and is penalized by Gaussian power draw
 and fluid depletion
 float AdvancedPropulsionControlUnit::compute_subspace_efficiency(
 const SpacetimeModulationState& state) const {
@@ -3089,7 +3084,7 @@ float stability_bonus = state.spacetime_stability_index * state.spacetime_stabil
 float efficiency = base_efficiency * power_penalty * fluid_modulation + stability_bonus;
 return std::max(0.0f, std::min(RAPSConfig::MAX_SUBSPACE_EFFICIENCY, efficiency));
 }
-// HLV Math Update: Stability is inversely related to Curvature and quadratically penalized by
+// RAPS Math Update: Stability is inversely related to Curvature and quadratically penalized by
 Stress
 float AdvancedPropulsionControlUnit::compute_stability_index() const {
 float C = current_propulsion_state_.spacetime_curvature_magnitude;
@@ -3131,12 +3126,12 @@ return std::max(0.0f, std::min(1.0f, authority));
 }
 void AdvancedPropulsionControlUnit::consume_resources(uint32_t elapsed_ms) {
 // Antimatter consumption based on power draw
-float antimatter_consumed = current_propulsion_state_.power_draw_GW *
-ANTIMATTER_BURN_RATE_GW_TO_KG_PER_MS * elapsed_ms;
-current_propulsion_state_.remaining_antimatter_kg -= antimatter_consumed;
-current_propulsion_state_.remaining_antimatter_kg =
-std::max(0.0f, current_propulsion_state_.remaining_antimatter_kg);
-// HLV Math Update: Fluid consumption scales non-linearly with curvature (C^1.5)
+float propellant_consumed = current_propulsion_state_.power_draw_GW *
+PROPELLANT_BURN_RATE_GW_TO_KG_PER_MS * elapsed_ms;
+current_propulsion_state_.remaining_propellant_kg -= propellant_consumed;
+current_propulsion_state_.remaining_propellant_kg =
+std::max(0.0f, current_propulsion_state_.remaining_propellant_kg);
+// RAPS Math Update: Fluid consumption scales non-linearly with curvature (C^1.5)
 float C = current_propulsion_state_.spacetime_curvature_magnitude;
 float fluid_consumed_base = QUANTUM_FLUID_BASE_CONSUMPTION_RATE *
 elapsed_ms;
@@ -3379,8 +3374,8 @@ PlatformHAL::metric_emit("apcu.subspace_efficiency_pct",
 current_propulsion_state_.subspace_efficiency_pct);
 PlatformHAL::metric_emit("apcu.total_displacement_km",
 (float)current_propulsion_state_.total_displacement_km);
-PlatformHAL::metric_emit("apcu.antimatter_kg",
-current_propulsion_state_.remaining_antimatter_kg);
+PlatformHAL::metric_emit("apcu.propellant_kg",
+current_propulsion_state_.remaining_propellant_kg);
 PlatformHAL::metric_emit("apcu.quantum_fluid_L",
 current_propulsion_state_.quantum_fluid_level);
 PlatformHAL::metric_emit("apcu.coupling_stress",
@@ -3397,8 +3392,8 @@ PlatformHAL::metric_emit("apcu.safe_state_saved", 1.0f);
 }
 bool AdvancedPropulsionControlUnit::is_state_safe_to_save(
 const SpacetimeModulationState& state) const {
-return state.remaining_antimatter_kg >
-RAPSConfig::EMERGENCY_ANTIMATTER_RESERVE_KG &&
+return state.remaining_propellant_kg >
+RAPSConfig::EMERGENCY_PROPELLANT_RESERVE_KG &&
 state.quantum_fluid_level >
 RAPSConfig::EMERGENCY_QUANTUM_FLUID_LITERS &&
 state.field_coupling_stress <
@@ -3440,7 +3435,7 @@ bool AdvancedPropulsionControlUnit::initiate_emergency_spacetime_collapse() {
 PlatformHAL::metric_emit("apcu.emergency_collapse_initiated", 1.0f);
 // Create emergency shutdown command
 SpacetimeModulationCommand emergency_command = {
-0.0f, // Collapse warp field
+0.0f, // Collapse thrust intensity field
 0.0f, // Neutralize flux
 1.0f, // Return to normal time
 0.0f, // Remove artificial gravity
@@ -3476,7 +3471,7 @@ return false;
 }
 ||
 // Check resource availability for restoration
-if (safe_state.remaining_antimatter_kg > current_propulsion_state_.remaining_antimatter_kg
+if (safe_state.remaining_propellant_kg > current_propulsion_state_.remaining_propellant_kg
 safe_state.quantum_fluid_level > current_propulsion_state_.quantum_fluid_level) {
 PlatformHAL::metric_emit("apcu.restore_rejected_insufficient_resources", 1.0f);
 return false;
@@ -3512,8 +3507,8 @@ return current_propulsion_state_;
 bool AdvancedPropulsionControlUnit::is_operational_state_safe() const {
 bool safe = true;
 // Critical resource checks
-if (current_propulsion_state_.remaining_antimatter_kg <
-RAPSConfig::CRITICAL_ANTIMATTER_KG) {
+if (current_propulsion_state_.remaining_propellant_kg <
+RAPSConfig::CRITICAL_PROPELLANT_KG) {
 PlatformHAL::metric_emit("apcu.safety_fuel_critical", 1.0f);
 safe = false;
 }

@@ -8,15 +8,15 @@
 #include <vector>
 
 #include "raps/core/raps_definitions.hpp"
-#include "hlv/hlv_constants.hpp"
-#include "hlv/spacetime_modulation_types.hpp"
+#include "propulsion/propulsion_constants.hpp"
+#include "propulsion/spacetime_modulation_types.hpp"
 
 // =====================================================
-// HLV Predictive Digital Twin Engine
+// Predictive Digital Twin (PDT) Engine
 // =====================================================
 // - Monte Carlo prediction
 // - Uncertainty estimation
-// - Online residual learning
+// - Online residual learning for classical propulsion dynamics
 // =====================================================
 
 class MLResidualModel {
@@ -29,7 +29,7 @@ public:
     }
 };
 
-class HlvPdtEngine {
+class PdtEngine {
 public:
     PredictionResult predict(
         const SpacetimeModulationState& current_state,
@@ -154,9 +154,9 @@ public:
 
         residual_model_.train(features, labels);
 
-        std::cout << "[HLV-PDT] Trained on "
+        std::cout << "[PDT] Trained on "
                   << features.size()
-                  << " samples with triadic time integration\n";
+                  << " samples with classical state integration\n";
     }
 
 private:

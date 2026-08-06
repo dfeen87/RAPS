@@ -1,8 +1,8 @@
-# HLV-RAPS REST API Documentation
+# RAPS REST API Documentation
 
 ## Overview
 
-The HLV-RAPS Flight Middleware provides a **read-only HTTP/JSON REST API** for observability and monitoring. This API is designed for flight-software telemetry access without any control surfaces.
+The RAPS Flight Middleware provides a **read-only HTTP/JSON REST API** for observability and monitoring. This API is designed for flight-software telemetry access without any control surfaces.
 
 **Key Properties:**
 - **Read-only**: Only GET endpoints are supported
@@ -31,7 +31,7 @@ Returns basic health and version information.
 ```json
 {
   "status": "ok",
-  "service": "HLV-RAPS Flight Middleware",
+  "service": "RAPS Flight Middleware",
   "api_version": "1.0",
   "observability_only": true
 }
@@ -72,7 +72,7 @@ Returns current physical state (Ψ) and informational state (Φ).
 - `valid`: Whether the snapshot is valid
 - `timestamp_ms`: Snapshot timestamp
 - `physics_state`: Classical physical state (position, velocity, mass)
-- `spacetime_state`: HLV-specific informational state (optional, present if available)
+- `spacetime_state`: Propulsion-specific informational state (optional, present if available)
 
 ### PDT Predictions
 

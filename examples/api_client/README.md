@@ -1,6 +1,6 @@
-# HLV-RAPS REST API Examples
+# RAPS REST API Examples
 
-This directory contains examples for using the HLV-RAPS REST API.
+This directory contains examples for using the RAPS REST API.
 
 ## Files
 

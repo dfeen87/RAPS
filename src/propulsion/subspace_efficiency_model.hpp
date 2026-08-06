@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
-// HLV Math: Efficiency scales with W^2/P, Gaussian penalty by power draw,
+// Classical Propulsion Math: Efficiency scales with W^2/P, Gaussian penalty by power draw,
 // fluid depletion penalty, and stability bonus.
 inline float compute_subspace_efficiency_model(
     const SpacetimeModulationState& state) {

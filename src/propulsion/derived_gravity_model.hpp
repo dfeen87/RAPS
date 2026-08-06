@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-// HLV Math: Gravity is primarily linear with flux,
-// modulated by warp field magnitude.
+// Classical Propulsion Math: Thrust-induced acceleration is primarily linear with exhaust bias,
+// modulated by core thrust magnitude.
 inline float compute_derived_gravity(
     const SpacetimeModulationState& state) {
 

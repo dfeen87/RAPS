@@ -5,7 +5,7 @@
 #include <iostream>
 
 // =====================================================
-// HLV-RAPS Stability Indicator Upgrade (v3.3.0)
+// RAPS Stability Indicator Upgrade (v3.5.0)
 // =====================================================
 
 namespace StabilityConfig {

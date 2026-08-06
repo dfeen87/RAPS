@@ -1,16 +1,16 @@
 <div align="center">
 
-# RAPS-HLV Flight Middleware
+# RAPS Flight Middleware
 
 **Advanced Safety & Predictive Intelligence Layer for Flight-Ready Systems**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/dfeen87/HLV-RAPS/actions/workflows/ci.yml/badge.svg)](https://github.com/dfeen87/HLV-RAPS/actions/workflows/ci.yml)
+[![CI](https://github.com/dfeen87/RAPS/actions/workflows/ci.yml/badge.svg)](https://github.com/dfeen87/RAPS/actions/workflows/ci.yml)
 [![C++](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://isocpp.org/)
 [![CMake](https://img.shields.io/badge/CMake-3.10+-064F8C.svg)](https://cmake.org/)
-[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20RTOS-lightgrey.svg)](https://github.com/dfeen87/HLV-RAPS)
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20RTOS-lightgrey.svg)](https://github.com/dfeen87/RAPS)
 
-*Powered by the Helix–Light–Vortex (HLV) Framework*
+*Powered by Classical Propulsion Dynamics*
 
 [Overview](#overview) •
 [Features](#key-features) •
@@ -38,7 +38,7 @@ This repository provides a **flight-safety architecture and reference implementa
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Why HLV-RAPS?](#why-hlv-raps)
+- [Why RAPS?](#why-raps)
 - [Key Features](#key-features)
 - [Core Concepts](#core-concepts)
 - [Architecture](#architecture)
@@ -63,7 +63,7 @@ This repository provides a **flight-safety architecture and reference implementa
 
 ## Overview
 
-**HLV Flight Middleware** is a deterministic safety and predictive intelligence layer designed to operate between flight control computers (or avionics controllers) and mission-critical subsystems such as propulsion, power management, thermal control, actuation, and guidance systems.
+**RAPS Flight Middleware** is a deterministic safety and predictive intelligence layer designed to operate between flight control computers (or avionics controllers) and mission-critical subsystems such as propulsion, power management, thermal control, actuation, and guidance systems.
 
 ### What It Does
 
@@ -86,7 +86,7 @@ Built on **flight-ready engineering practices**:
 
 ---
 
-## Why HLV-RAPS?
+## Why RAPS?
 
 Modern aerospace systems fail in the margins: small deviations accumulate across thermal stress, fatigue, timing drift, sensor noise, and coupled subsystem dynamics.
 
@@ -97,9 +97,9 @@ Modern aerospace systems fail in the margins: small deviations accumulate across
 - ❌ Provides logs that are hard to trust or reconstruct
 - ❌ Has limited rollback/failover primitives
 
-### HLV-RAPS Solution
+### RAPS Solution
 
-HLV Flight Middleware closes this gap by introducing:
+RAPS Flight Middleware closes this gap by introducing:
 
 - ✅ **Predictive Digital Twin** — Forecast with confidence/uncertainty estimation
 - ✅ **Deterministic Safety Monitor** — Hard limits with independent checks
@@ -148,17 +148,17 @@ HLV Flight Middleware closes this gap by introducing:
 The middleware models the system in two coupled layers:
 
 - **Physical State (Ψ)**: Classical metrics (voltage, current, temperature, cycles, stress, position, velocity, etc.)
-- **Informational State (Φ)**: Entropy, degradation history, anomaly geometry, drift, and coherence
+- **Informational State (Φ)**: Thermal stress, structural fatigue, degradation history, drift, and resonance coherence
 
 ### Mathematical Framework
 
-Coupling is expressed through an effective metric:
+Coupling is expressed through an effective system state metric:
 
 ```
-g_μν^eff = g_μν + λ (∂_μ Φ)(∂_ν Φ)
+S_eff = S_nominal + λ * ΔS_stress
 ```
 
-**Practical Interpretation**: Φ acts as a *structured memory + distortion field* that influences how the middleware interprets "normal" evolution of Ψ, enabling earlier detection and better predictive safety gating.
+**Practical Interpretation**: S_nominal represents the standard dynamic state of the propulsion system, while dynamic stress deviations are coupled via parameter lambda to account for memory and non-linear degradation, enabling earlier detection and better predictive safety gating.
 
 ---
 
@@ -173,7 +173,7 @@ g_μν^eff = g_μν + λ (∂_μ Φ)(∂_ν Φ)
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  HLV-RAPS Middleware                         │
+│                     RAPS Middleware                          │
 │  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐   │
 │  │ Predictive   │  │ Deterministic│  │   Governance    │   │
 │  │ Digital Twin │→ │    Safety    │→ │      Loop       │   │
@@ -263,8 +263,8 @@ A lightweight read-only HTTP/JSON API:
 
 ```bash
 # Clone the repository
-git clone https://github.com/dfeen87/HLV-RAPS.git
-cd HLV-RAPS
+git clone https://github.com/dfeen87/RAPS.git
+cd RAPS
 
 # Build the Software-in-the-Loop (SIL) test harness
 cmake -S tests/sil -B build
@@ -276,7 +276,7 @@ ctest --test-dir build --output-on-failure
 
 ### Running the RTOS Demo
 
-The RTOS demonstration (`examples/hlv_demo/hlv_rtos_demo.cpp`) is a reference integration example for embedded/RTOS targets. Building it requires a platform-specific toolchain; there is no standalone CMake target provided. Refer to the source file for integration guidance.
+The RTOS demonstration (`examples/raps_demo/raps_rtos_demo.cpp`) is a reference integration example for embedded/RTOS targets. Building it requires a platform-specific toolchain; there is no standalone CMake target provided. Refer to the source file for integration guidance.
 
 ### Running the REST API Server
 
@@ -299,7 +299,7 @@ curl http://localhost:8080/health
 ## Repository Structure
 
 ```
-HLV-RAPS/
+RAPS/
 ├── docs/                           # Documentation
 │   ├── REST_API.md                # REST API endpoint reference
 │   ├── architecture.md            # Detailed architecture guide
@@ -307,20 +307,20 @@ HLV-RAPS/
 │   └── verification.md           # Verification approach
 │
 ├── examples/                       # Example applications
-│   ├── hlv_demo/                  # RTOS demonstration
+│   ├── raps_demo/                  # RTOS demonstration
 │   └── api_client/                # REST API client examples
 │
 ├── include/                        # Public API headers
 │   ├── apcu/                      # Advanced Propulsion Control Unit
 │   ├── config/                    # Configuration and safety limits
 │   ├── core/                      # Core definitions and types
-│   ├── hlv/                       # HLV framework headers
+│   ├── propulsion/                # Classical propulsion dynamics headers
 │   ├── itl/                       # Immutable Telemetry Ledger
 │   ├── platform/                  # Platform abstraction layer
 │   └── raps/                      # RAPS core components
 │       ├── api/                   # REST API interfaces
 │       ├── core/                  # RAPS core types
-│       ├── hlv/                   # HLV field dynamics
+│       ├── propulsion/            # Classical dynamics model
 │       ├── pdt/                   # Predictive Digital Twin
 │       ├── platform/              # RTOS abstractions
 │       ├── safety/                # Safety monitors
@@ -328,7 +328,7 @@ HLV-RAPS/
 │
 ├── src/                            # Implementation sources
 │   ├── control/                   # Control algorithms
-│   ├── hlv/                       # HLV subsystem modules
+│   ├── propulsion/                # Propulsion subsystem modules
 │   ├── itl/                       # ITL primitives
 │   ├── physics/                   # Physics engines
 │   ├── raps/                      # RAPS implementation
@@ -353,8 +353,8 @@ HLV-RAPS/
 | `include/raps/supervisor/` | Redundant supervisor and failover |
 | `include/itl/` | Immutable Telemetry Ledger |
 | `include/raps/api/` | REST API server and snapshots |
-| `src/hlv/` | HLV subsystem modules (gravity control, time dilation, etc.) |
-| `examples/hlv_demo/` | RTOS demonstration harness |
+| `src/propulsion/` | Subsystem modules (combustion efficiency, thermal limits, etc.) |
+| `examples/raps_demo/` | RTOS demonstration harness |
 | `tests/sil/` | Software-in-the-Loop test suite |
 
 ---
@@ -480,12 +480,12 @@ We welcome contributions!
 
 ### Primary Documentation
 
-**RAPS Foundational Document + Part II (HLV Physics Math Implementation)**
+**RAPS Foundational Document + Part II (Classical Propulsion Math Implementation)**
 - 📖 [AI-Augmented Rigor: A Zero-Trust Governance Architecture](https://dfeen.substack.com/p/ai-augmented-rigor-a-zero-trust-governance)
 
 ### Academic Publications
 
-**Preprint: Gaussian Vacuum Solitons, Spiral-Time HLV Dynamics, RAPS Coherence Architecture**
+**Preprint: System Resonance, Classical Dynamics, RAPS Coherence Architecture**
 - 📄 [Zenodo Record 17848351](https://zenodo.org/records/17848351) • [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17848351.svg)](https://doi.org/10.5281/zenodo.17848351)
 
 **Book Download**
@@ -496,12 +496,12 @@ We welcome contributions!
 If you use this work in academic research, please cite:
 
 ```bibtex
-@software{hlv_raps_2025,
-  author = {Feeney Jr., Don Michael and Krüger, Marcel},
-  title = {RAPS-HLV Flight Middleware: Advanced Safety \& Predictive Intelligence Layer},
-  year = {2025},
+@software{raps_2026,
+  author = {Feeney Jr., Don Michael},
+  title = {RAPS Flight Middleware: Advanced Safety \& Predictive Intelligence Layer},
+  year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/dfeen87/HLV-RAPS}
+  url = {https://github.com/dfeen87/RAPS}
 }
 ```
 
@@ -512,9 +512,6 @@ If you use this work in academic research, please cite:
 **Don Michael Feeney Jr.**
 - Email: dfeen87@gmail.com
 - Primary architect and developer
-
-**Marcel Krüger**
-- Co-author and contributor
 
 ### Acknowledgments
 
@@ -538,7 +535,7 @@ This architecture is fully open-source under the MIT License. If your organizati
 
 <div align="center">
 
-**[⬆ Back to Top](#raps-hlv-flight-middleware)**
+**[⬆ Back to Top](#raps-flight-middleware)**
 
 Made with ❤️ for flight safety and aerospace innovation
 
