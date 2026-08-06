@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-// HLV Math: Time dilation derived from curvature and fluid availability
+// Classical Propulsion Math: Thermal expansion dilation derived from chamber loading and coolant fluid availability
 inline float compute_derived_time_dilation(
     const SpacetimeModulationState& state) {
 

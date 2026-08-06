@@ -17,13 +17,13 @@
 
 namespace DSM_Config {
 
-// Absolute physical limits (EFE derived)
+// Absolute physical limits
 constexpr double MAX_CURVATURE_THRESHOLD_RMAX = 1.0e-12;
 
-// HLV Pillar 2: Oscillatory Modulation Stability
+// Thermal Pillar: Vibration and Oscillatory Modulation Stability
 constexpr double MIN_ACCEPTABLE_A_T = 0.80;
 
-// HLV Pillar 5: Tri-Cell Coupling
+// Structural Pillar: Tri-Chamber Coupling Stability
 constexpr double MAX_TCC_COUPLING_J = 1.0e+04;
 
 // Failsafe parameters

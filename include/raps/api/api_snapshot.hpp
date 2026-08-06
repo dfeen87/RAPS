@@ -4,7 +4,7 @@
 #include <array>
 #include <optional>
 #include "raps/core/raps_core_types.hpp"
-#include "hlv/spacetime_modulation_types.hpp"
+#include "propulsion/spacetime_modulation_types.hpp"
 
 // =====================================================
 // REST API Snapshot Data Structures
@@ -92,7 +92,7 @@ struct StateSnapshot {
     // Physical state (Ψ)
     PhysicsState physics_state;
     
-    // Informational/HLV state (Φ) - if available
+    // Informational/Propulsion state (Φ) - if available
     SpacetimeModulationState spacetime_state;
     
     uint32_t timestamp_ms;

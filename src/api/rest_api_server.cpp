@@ -248,7 +248,7 @@ std::string RestApiServer::handle_health() {
     std::ostringstream json;
     json << "{"
          << "\"status\":\"ok\","
-         << "\"service\":\"HLV-RAPS Flight Middleware\","
+         << "\"service\":\"RAPS Flight Middleware\","
          << "\"api_version\":\"" << RAPSVersion::STRING << "\","
          << "\"observability_only\":true"
          << "}";

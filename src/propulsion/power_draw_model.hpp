@@ -3,7 +3,7 @@
 #include <cmath>
 #include <cstdint>
 
-// HLV Math: Power scales non-linearly with fields and with slew rate.
+// Classical Propulsion Math: Thermal/electrical power scales non-linearly with primary thrust inputs and change slew rate.
 // warp_slew and flux_slew are expressed in units/ms.
 inline float compute_power_draw_model(
     const SpacetimeModulationState& state,

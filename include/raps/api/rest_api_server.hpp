@@ -10,7 +10,7 @@
 #include "raps/api/api_snapshot.hpp"
 
 // =====================================================
-// REST API Server for HLV-RAPS Observability
+// REST API Server for RAPS Observability
 // =====================================================
 // Read-only HTTP/JSON REST API
 // Binds to 0.0.0.0:8080 for LAN-wide access

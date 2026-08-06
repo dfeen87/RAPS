@@ -32,7 +32,7 @@ PhysicsState mock_read_sensors(const PhysicsState& last_state) {
 int main() {
     std::cout <<
         "========================================================\n"
-        " RAPS Kernel HLV Demonstration (RTOS Concepts)\n"
+        " RAPS Kernel Demonstration (RTOS Concepts)\n"
         "========================================================\n";
 
     PlatformHAL::seed_rng_for_stubs(

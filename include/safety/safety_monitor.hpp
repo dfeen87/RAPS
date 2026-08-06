@@ -2,14 +2,14 @@
 
 #include "RAPSDefinitions.hpp"
 #include "PropulsionPhysicsEngine.hpp"
-#include "raps/pdt/hlv_pdt_engine.hpp"
+#include "raps/pdt/pdt_engine.hpp"
 #include <optional>
 #include <array>
 
 class SafetyMonitor {
 private:
     PropulsionPhysicsEngine physics_engine_;
-    HlvPdtEngine pdt_engine_;
+    PdtEngine pdt_engine_;
 
     std::array<RollbackPlan, RAPSConfig::MAX_ROLLBACK_STORE> rollback_store_;
     size_t rollback_count_{0};
@@ -17,7 +17,7 @@ private:
     bool check_safety_bounds(const PhysicsState& state) const;
 
 public:
-    void init(const HlvPdtEngine& pdt);
+    void init(const PdtEngine& pdt);
 
     AileeDataPayload validate_policy(const Policy& policy) const;
 

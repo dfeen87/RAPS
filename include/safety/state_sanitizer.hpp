@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-#include "hlv/spacetime_modulation_types.hpp"
+#include "propulsion/spacetime_modulation_types.hpp"
 
 inline bool is_finite_and_valid(float v) {
     return std::isfinite(v);

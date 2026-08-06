@@ -113,7 +113,7 @@ private:
 
 int main() {
     std::cout << "==============================================\n";
-    std::cout << "  HLV-RAPS REST API Demo\n";
+    std::cout << "  RAPS REST API Demo\n";
     std::cout << "==============================================\n\n";
     
     // Create mock data provider

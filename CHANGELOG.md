@@ -1,6 +1,14 @@
 # Changelog
 
-All notable changes to HLV-RAPS are documented in this file.
+All notable changes to RAPS are documented in this file.
+
+## [3.5.0] - 2026-05-15
+
+### Changed
+- Rename repository to RAPS and bump version to 3.5.0.
+- Remove all references and contributions of Marcel Krüger.
+- Replace HLV (Helix-Light-Vortex) terminology and sci-fi theoretical math with classical propulsion, dynamic state, and thermodynamic engineering models.
+- Ensure Software-in-the-Loop (SIL) tests are fully functional and pass with the revised math structure.
 
 ## [3.2.1] - 2026-05-04
 

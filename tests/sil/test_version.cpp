@@ -5,9 +5,9 @@
 #include <iostream>
 
 void test_version_consistency() {
-    assert(std::string(RAPSVersion::STRING) == "3.3.0");
+    assert(std::string(RAPSVersion::STRING) == "3.5.0");
     assert(RAPSVersion::MAJOR == 3);
-    assert(RAPSVersion::MINOR == 3);
+    assert(RAPSVersion::MINOR == 5);
     assert(RAPSVersion::PATCH == 0);
 
     // The executable is typically run from build_sil/, so we might need to go up to find VERSION
@@ -27,7 +27,7 @@ void test_version_consistency() {
         while (!version_str.empty() && (version_str.back() == '\n' || version_str.back() == '\r')) {
             version_str.pop_back();
         }
-        assert(version_str == "3.3.0");
+        assert(version_str == "3.5.0");
         version_file.close();
     } else {
         std::cerr << "Could not open VERSION file." << std::endl;

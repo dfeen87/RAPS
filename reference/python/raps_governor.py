@@ -1,5 +1,5 @@
 # ________________________________________
-# RAPS GOVERNOR WITH HLV (REFERENCE)
+# RAPS GOVERNOR WITH RAPS (REFERENCE)
 # ________________________________________
 
 import time
@@ -14,10 +14,10 @@ from itl_reference import (
     shutdown
 )
 
-from hlv_math_stubs import (
-    hlv_predict_At,
-    hlv_predict_J,
-    HLV_CONSTANTS
+from raps_math_stubs import (
+    raps_predict_At,
+    raps_predict_J,
+    RAPS_CONSTANTS
 )
 
 # --- CONFIG / CONSTANTS ---
@@ -107,7 +107,7 @@ def pdt_infer(snapshot: Dict[str, Any], horizon_ms: int) -> PredictionResult:
 def uncertaintymetric(cov: Dict[str, Any]) -> float:
     return float(cov.get("norm_sigma", 0.0))
 
-# --- SAFETY MONITOR (HLV-AWARE) ---
+# --- SAFETY MONITOR (STRESS-AWARE) ---
 
 def safety_monitor_validate(
     policy_preflight: Dict[str, Any],
@@ -116,22 +116,22 @@ def safety_monitor_validate(
 
     cmd = policy_preflight.get("command_set") or {}
 
-    # --- HLV Pillar 2: A(t) ---
-    predicted_A_t = hlv_predict_At(current_state, cmd)
-    if predicted_A_t < HLV_CONSTANTS["MIN_ACCEPTABLE_A_T"]:
+    # --- RAPS Pillar 2: A(t) ---
+    predicted_A_t = raps_predict_At(current_state, cmd)
+    if predicted_A_t < RAPS_CONSTANTS["MIN_ACCEPTABLE_A_T"]:
         itl_commit({
-            "type": "safety_check_fail_hlv",
+            "type": "safety_check_fail_raps",
             "reason": "Predicted A(t) violates stability window",
             "predicted_A_t": predicted_A_t,
             "timestamp_ms": now_ms(),
         })
         return False
 
-    # --- HLV Pillar 5: TCC Coupling ---
-    predicted_J = hlv_predict_J(current_state, cmd)
-    if predicted_J > HLV_CONSTANTS["MAX_TCC_COUPLING_J"]:
+    # --- RAPS Pillar 5: TCC Coupling ---
+    predicted_J = raps_predict_J(current_state, cmd)
+    if predicted_J > RAPS_CONSTANTS["MAX_TCC_COUPLING_J"]:
         itl_commit({
-            "type": "safety_check_fail_hlv",
+            "type": "safety_check_fail_raps",
             "reason": "Predicted J violates TCC coupling limit",
             "predicted_J": predicted_J,
             "timestamp_ms": now_ms(),

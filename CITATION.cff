@@ -1,26 +1,25 @@
 cff-version: 1.2.0
 message: "If you use this software in academic research, please cite it using the metadata below."
-title: "RAPS-HLV Flight Middleware: Advanced Safety & Predictive Intelligence Layer"
+title: "RAPS Flight Middleware: Advanced Safety & Predictive Intelligence Layer"
 type: software
 authors:
   - family-names: "Feeney Jr."
     given-names: "Don Michael"
     email: dfeen87@gmail.com
-  - family-names: "Krüger"
-    given-names: "Marcel"
+version: "3.5.0"
 year: 2026
-license: "PolyForm Noncommercial 1.0.0"
-repository-code: "https://github.com/dfeen87/HLV-RAPS"
-url: "https://github.com/dfeen87/HLV-RAPS"
+license: MIT
+repository-code: "https://github.com/dfeen87/RAPS"
+url: "https://github.com/dfeen87/RAPS"
 identifiers:
   - type: doi
     value: 10.5281/zenodo.17848351
-    description: "Preprint: Gaussian Vacuum Solitons, Spiral-Time HLV Dynamics, RAPS Coherence Architecture"
+    description: "Preprint: RAPS Coherence Architecture"
   - type: doi
     value: 10.5281/zenodo.17849083
     description: "Book Download"
 abstract: >-
-  HLV Flight Middleware is a deterministic safety and predictive intelligence
+  RAPS Flight Middleware is a deterministic safety and predictive intelligence
   layer designed to operate between flight control computers and mission-critical
   subsystems. It implements a proactive governed control loop: Predict, Validate,
   Execute, and Audit — using a Predictive Digital Twin, Deterministic Safety Monitor,
