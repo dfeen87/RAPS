@@ -13,7 +13,7 @@
  * - Failure to write is acceptable
  * - No blocking in control paths
  *
- * License: Non-Commercial (see LICENSE)
+ * Licensed under the PolyForm Noncommercial License 1.0.0
  */
 
 #include <cstdio>

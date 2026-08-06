@@ -5,7 +5,7 @@
  * - Easy to parse
  * - Stream-friendly
  *
- * License: Non-Commercial (see LICENSE)
+ * Licensed under the PolyForm Noncommercial License 1.0.0
  */
 
 #include <cstdio>

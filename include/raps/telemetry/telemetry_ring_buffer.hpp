@@ -8,7 +8,7 @@
  * - minimal contention
  * - acceptable ordering (seq numbers)
  *
- * License: Non-Commercial (see LICENSE)
+ * Licensed under the PolyForm Noncommercial License 1.0.0
  */
 
 #include <atomic>
