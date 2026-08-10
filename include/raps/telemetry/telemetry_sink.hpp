@@ -2,7 +2,8 @@
 /*
  * Telemetry sink interface: keeps the core logger decoupled from export mechanisms.
  *
- * Licensed under the PolyForm Noncommercial License 1.0.0
+ * Copyright (c) 2026 Don Michael Feeney Jr.
+ * Licensed under the MIT License.
  */
 
 #include "telemetry_event.hpp"

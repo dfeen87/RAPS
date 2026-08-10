@@ -5,7 +5,8 @@
  * - No allocations in emit() hot path
  * - Best-effort ordering via seq counter
  *
- * Licensed under the PolyForm Noncommercial License 1.0.0
+ * Copyright (c) 2026 Don Michael Feeney Jr.
+ * Licensed under the MIT License.
  */
 
 #include <atomic>
