@@ -9,7 +9,8 @@
  *   data/telemetry/runs/run_YYYY-MM-DDTHH-MM-SSZ/
  *   data/telemetry/runs/latest -> run_YYYY-MM-DDTHH-MM-SSZ
  *
- * Licensed under the PolyForm Noncommercial License 1.0.0
+ * Copyright (c) 2026 Don Michael Feeney Jr.
+ * Licensed under the MIT License.
  */
 
 #include <string>
