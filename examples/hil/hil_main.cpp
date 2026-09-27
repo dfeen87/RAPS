@@ -126,7 +126,7 @@ int main() {
 
     if (!run_dir.empty()) {
         raps::telemetry::TelemetryMetadata meta;
-        meta.raps_version     = "3.5.0";
+        meta.raps_version     = "3.6.0";
         meta.telemetry_schema = "1.0";
         meta.build_type       = "HIL";
         meta.notes            = "HIL loopback bring-up";

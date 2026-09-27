@@ -5,7 +5,7 @@
 #include <iostream>
 
 // =====================================================
-// RAPS Stability Indicator Upgrade (v3.5.0)
+// RAPS Stability Indicator Upgrade (v3.6.0)
 // =====================================================
 
 namespace StabilityConfig {

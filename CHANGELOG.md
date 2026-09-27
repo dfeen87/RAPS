@@ -2,6 +2,11 @@
 
 All notable changes to RAPS are documented in this file.
 
+## [3.6.0] - 2026-05-18
+
+### Changed
+- Bump version to 3.6.0 across codebase, tests, and documentation.
+
 ## [3.5.0] - 2026-05-15
 
 ### Changed
