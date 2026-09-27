@@ -28,24 +28,6 @@ static void expect_true(bool cond, const char* msg) {
     }
 }
 
-static void expect_eq_u32(uint32_t a, uint32_t b, const char* msg) {
-    if (a != b) {
-        ++g_failures;
-        std::cerr << "❌ " << msg << " (got=" << a << " expected=" << b << ")\n";
-    } else {
-        std::cout << "✅ " << msg << "\n";
-    }
-}
-
-static void expect_eq_str(const std::string& a, const std::string& b, const char* msg) {
-    if (a != b) {
-        ++g_failures;
-        std::cerr << "❌ " << msg << " (got=\"" << a << "\" expected=\"" << b << "\")\n";
-    } else {
-        std::cout << "✅ " << msg << "\n";
-    }
-}
-
 // -----------------------------
 // Tests
 // -----------------------------

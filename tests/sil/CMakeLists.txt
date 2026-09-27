@@ -146,6 +146,9 @@ add_test(
     NAME raps_sil_version_test
     COMMAND raps_sil_version_tests
 )
+set_tests_properties(raps_sil_version_test PROPERTIES
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/../.."
+)
 
 # ------------------------------------------------------------
 # Stability Indicator Tests

@@ -18,7 +18,7 @@ public:
   virtual void on_event(const TelemetryEvent& ev) noexcept = 0;
 
   // Called for summary stats, optional.
-  virtual void on_dropped(uint64_t dropped_total) noexcept {}
+  virtual void on_dropped(uint64_t) noexcept {}
 };
 
 } // namespace raps::telemetry

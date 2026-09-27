@@ -14,13 +14,15 @@
 // ------------------------------------------------------------
 // Telemetry logger (bounded, non-blocking, best-effort)
 // ------------------------------------------------------------
-static raps::telemetry::TelemetryLogger<4096> g_telemetry(
-    raps::telemetry::TelemetryConfig{
-        .enable_wall_time = false,   // monotonic only
-        .min_severity     = raps::telemetry::Severity::Info,
-        .enable_messages  = true
-    }
-);
+static raps::telemetry::TelemetryConfig telemetry_config() {
+    raps::telemetry::TelemetryConfig config;
+    config.enable_wall_time = false;  // monotonic only
+    config.min_severity = raps::telemetry::Severity::Info;
+    config.enable_messages = true;
+    return config;
+}
+
+static raps::telemetry::TelemetryLogger<4096> g_telemetry(telemetry_config());
 
 int main() {
 #if (RAPS_ENABLE_SIL != 1)
@@ -32,11 +34,12 @@ int main() {
     // Telemetry initialization (best-effort, non-fatal)
     // ------------------------------------------------------------
     const std::string run_dir = raps::telemetry::create_run_directory();
-    raps::telemetry::JsonlSink telemetry_sink;
+    const std::string telemetry_path = run_dir.empty()
+        ? std::string{}
+        : run_dir + "/telemetry.jsonl";
+    raps::telemetry::JsonlSink telemetry_sink(telemetry_path.c_str());
 
     if (!run_dir.empty()) {
-        telemetry_sink.open((run_dir + "/telemetry.jsonl").c_str());
-
         raps::telemetry::TelemetryMetadata meta;
         meta.raps_version     = "3.5.0";
         meta.telemetry_schema = "1.0";
