@@ -16,13 +16,15 @@
 // ------------------------------------------------------------
 // Telemetry logger (bounded, non-blocking, best-effort)
 // ------------------------------------------------------------
-static raps::telemetry::TelemetryLogger<4096> g_telemetry(
-    raps::telemetry::TelemetryConfig{
-        .enable_wall_time = false,   // monotonic only
-        .min_severity     = raps::telemetry::Severity::Info,
-        .enable_messages  = true
-    }
-);
+static raps::telemetry::TelemetryConfig telemetry_config() {
+    raps::telemetry::TelemetryConfig config;
+    config.enable_wall_time = false;  // monotonic only
+    config.min_severity = raps::telemetry::Severity::Info;
+    config.enable_messages = true;
+    return config;
+}
+
+static raps::telemetry::TelemetryLogger<4096> g_telemetry(telemetry_config());
 
 // ------------------------------------------------------------
 // Minimal loopback “device” for HIL bring-up
@@ -117,11 +119,12 @@ int main() {
     // Telemetry initialization (best-effort, non-fatal)
     // ------------------------------------------------------------
     const std::string run_dir = raps::telemetry::create_run_directory();
-    raps::telemetry::JsonlSink telemetry_sink;
+    const std::string telemetry_path = run_dir.empty()
+        ? std::string{}
+        : run_dir + "/telemetry.jsonl";
+    raps::telemetry::JsonlSink telemetry_sink(telemetry_path.c_str());
 
     if (!run_dir.empty()) {
-        telemetry_sink.open((run_dir + "/telemetry.jsonl").c_str());
-
         raps::telemetry::TelemetryMetadata meta;
         meta.raps_version     = "3.5.0";
         meta.telemetry_schema = "1.0";
@@ -139,7 +142,7 @@ int main() {
     {
         raps::telemetry::TelemetryEvent ev;
         ev.type      = raps::telemetry::EventType::ModeTransition;
-        ev.subsystem = raps::telemetry::Subsystem::HIL;
+        ev.subsystem = raps::telemetry::Subsystem::Diagnostics;
         ev.severity  = raps::telemetry::Severity::Info;
         ev.code      = 1; // HIL_START
         g_telemetry.emit(ev);
@@ -180,7 +183,7 @@ int main() {
 
             raps::telemetry::TelemetryEvent ev;
             ev.type      = raps::telemetry::EventType::ThresholdCross;
-            ev.subsystem = raps::telemetry::Subsystem::HIL;
+            ev.subsystem = raps::telemetry::Subsystem::Diagnostics;
             ev.severity  = raps::telemetry::Severity::Warn;
             ev.code      = 1;           // DEADLINE_MISS
             ev.v0        = elapsed;     // actual ms

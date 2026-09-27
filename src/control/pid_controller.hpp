@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cstdint>
 
 // Generic PID controller core
 inline float compute_pid_output(
