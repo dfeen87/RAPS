@@ -6,7 +6,7 @@ authors:
   - family-names: "Feeney Jr."
     given-names: "Don Michael"
     email: dfeen87@gmail.com
-version: "3.6.0"
+version: "4.0.0"
 year: 2026
 license: MIT
 repository-code: "https://github.com/dfeen87/RAPS"

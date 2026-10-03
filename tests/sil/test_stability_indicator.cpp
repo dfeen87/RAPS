@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <cmath>
+#include <limits>
 
 void test_compute_Su() {
     // 1. Boundary behavior: phi=0, chi=0 -> S_u = 1.0
@@ -113,12 +114,36 @@ void test_dsm_integration() {
     assert(ev3.flag_type == DSMFlagType::SU_LOW);
 }
 
+void test_invalid_and_stale_samples_fail_closed_without_poisoning_history() {
+    StabilityIndicator ind;
+    ind.update_stability_state(1000, StabilityConfig::ManeuverClass::CRUISE, 0.0, 0.0);
+
+    const auto invalid = ind.update_stability_state(
+        1001,
+        StabilityConfig::ManeuverClass::CRUISE,
+        std::numeric_limits<double>::quiet_NaN(),
+        0.0);
+    assert(invalid.flag_type == DSMFlagType::INVALID_INPUT);
+    assert(!ind.is_safe());
+
+    const auto recovered = ind.update_stability_state(
+        1002, StabilityConfig::ManeuverClass::CRUISE, 0.0, 0.0);
+    assert(std::isfinite(recovered.S_u));
+    assert(recovered.dS_u_dt == 0.0);
+    assert(recovered.flag_type == DSMFlagType::SU_HYSTERESIS_TRANSITION);
+
+    const auto stale = ind.update_stability_state(
+        1001, StabilityConfig::ManeuverClass::CRUISE, 0.0, 0.0);
+    assert(stale.flag_type == DSMFlagType::INVALID_INPUT);
+}
+
 int main() {
     test_compute_Su();
     test_maneuver_aware_thresholds();
     test_rate_of_change();
     test_hysteresis();
     test_dsm_integration();
+    test_invalid_and_stale_samples_fail_closed_without_poisoning_history();
     std::cout << "Stability Indicator tests passed." << std::endl;
     return 0;
 }

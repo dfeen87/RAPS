@@ -41,7 +41,7 @@ int main() {
 
     if (!run_dir.empty()) {
         raps::telemetry::TelemetryMetadata meta;
-        meta.raps_version     = "3.6.0";
+        meta.raps_version     = "4.0.0";
         meta.telemetry_schema = "1.0";
         meta.build_type       = "SIL";
         meta.notes            = "SIL deterministic timing harness";

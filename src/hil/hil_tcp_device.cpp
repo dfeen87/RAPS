@@ -49,6 +49,10 @@ bool HilTcpDevice::is_connected() const {
 
 bool HilTcpDevice::connect() {
     std::lock_guard<std::mutex> lk(mu_);
+    return connect_locked();
+}
+
+bool HilTcpDevice::connect_locked() {
     if (sock_ >= 0) return true;
 
     // Resolve host
@@ -99,7 +103,7 @@ void HilTcpDevice::disconnect() {
 bool HilTcpDevice::ensure_connected_locked() {
     if (sock_ >= 0) return true;
     // Attempt connect once (no loops, no delays)
-    return connect();
+    return connect_locked();
 }
 
 bool HilTcpDevice::send_line_locked(const std::string& line) {
