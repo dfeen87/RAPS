@@ -7,6 +7,9 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_type: [Debug, Release]
 
     steps:
       - name: Checkout repository
@@ -18,10 +21,15 @@ jobs:
           sudo apt-get install -y --no-install-recommends build-essential cmake
 
       - name: Configure SIL tests
-        run: cmake -S tests/sil -B build
+        run: cmake -S tests/sil -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build SIL tests
         run: cmake --build build
 
       - name: Run SIL tests
         run: ctest --test-dir build --output-on-failure
+
+      - name: Build REST API integration surface
+        run: |
+          cmake -S examples/api_client -B build-api -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          cmake --build build-api

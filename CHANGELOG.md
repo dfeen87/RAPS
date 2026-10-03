@@ -2,6 +2,21 @@
 
 All notable changes to RAPS are documented in this file.
 
+## [4.0.0] - 2026-10-03
+
+### Safety and robustness
+- Fail closed on malformed scalar, slew-rate, and duration policy inputs.
+- Reject invalid or out-of-order stability samples without corrupting valid history.
+- Remove recursive locking from lazy HIL TCP connection establishment.
+
+### Verification
+- Add regression tests for policy input domains, stability sample admission, and HIL auto-connect progress.
+- Run SIL tests and compile the REST API integration in both Debug and Release CI profiles.
+- Keep assertions active in test targets regardless of build profile.
+
+### Documentation
+- Document the BEDROCK invariants, compatibility tightening, and remaining real-world validation obligations.
+
 ## [3.6.0] - 2026-05-18
 
 ### Changed

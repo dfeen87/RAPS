@@ -5,7 +5,7 @@
 #include <iostream>
 
 // =====================================================
-// RAPS Stability Indicator Upgrade (v3.6.0)
+// RAPS Stability Indicator (v4.0.0)
 // =====================================================
 
 namespace StabilityConfig {
@@ -48,7 +48,8 @@ enum class DSMFlagType {
     NONE = 0,
     SU_LOW = 1,
     SU_RATE_VIOLATION = 2,
-    SU_HYSTERESIS_TRANSITION = 3
+    SU_HYSTERESIS_TRANSITION = 3,
+    INVALID_INPUT = 4
 };
 
 struct DSMEvent {
@@ -99,7 +100,22 @@ public:
         double phi,
         double chi) {
 
+        // Measurements are dimensionless stress magnitudes.  Invalid or
+        // out-of-order samples cannot be admitted into the rate history: doing
+        // so would let one malformed sample suppress the next rate check.
+        if (!std::isfinite(phi) || !std::isfinite(chi) || phi < 0.0 || chi < 0.0 ||
+            (initialized_ && timestamp <= last_timestamp_)) {
+            is_safe_mode_ = false;
+            return emit_dsm_event(
+                timestamp, mclass, 0.0, 0.0, DSMFlagType::INVALID_INPUT);
+        }
+
         double current_S_u = compute_Su(phi, chi);
+        if (!std::isfinite(current_S_u) || current_S_u < 0.0 || current_S_u > 1.0) {
+            is_safe_mode_ = false;
+            return emit_dsm_event(
+                timestamp, mclass, 0.0, 0.0, DSMFlagType::INVALID_INPUT);
+        }
         double dS_u_dt = 0.0;
 
         auto thresholds = StabilityConfig::get_thresholds(mclass);

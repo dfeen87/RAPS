@@ -65,14 +65,22 @@ This section lists properties the system should maintain, expressed in a form su
 **Property P1 — Scalar envelope:**  
 For every constrained scalar value `x`, if `ScalarLimit(min,max)` is active, then:
 - `min ≤ x ≤ max` always holds after enforcement.
+- non-finite values and malformed bounds produce violations rather than permission.
 
 **Property P2 — Slew-rate:**  
 For any value `x(t)` subject to `SlewRateLimit(max_delta_per_sec)`:
 - `|x(t) - x(t-Δt)| / Δt ≤ max_delta_per_sec` for all evaluation steps.
+- non-finite values, invalid limits, and non-positive `Δt` produce violations.
 
 **Property P3 — Duration constraint:**  
 If a monitored condition persists continuously for duration `d`:
 - `d ≤ max_duration` or the system escalates according to severity.
+- negative configured or observed durations produce violations.
+
+**Property P4 — Stability sample admission:**
+Only finite, non-negative stress magnitudes with strictly increasing timestamps
+may update stability history. Rejected samples latch the indicator unsafe, return
+`INVALID_INPUT`, and do not poison the last valid sample used by the next rate check.
 
 **Evidence sources:**
 - SIL replay tests asserting clamp/escalation outcomes
@@ -115,6 +123,11 @@ Core code must not directly include OS/device SDK headers. Backend-specific code
 **Property B2 — Format integrity:**  
 For any `AudioBlock` transmitted across the backend boundary:
 - `samples.size() == frames_per_block * channels`
+
+**Property B3 — HIL transport progress:**
+The first HIL operation may establish the TCP connection while holding the device
+serialization lock, but must not recursively acquire that lock. Connection or
+protocol failures return a deterministic failure and must not deadlock the caller.
 
 **Evidence sources:**
 - Compile-time include checks / lint rules

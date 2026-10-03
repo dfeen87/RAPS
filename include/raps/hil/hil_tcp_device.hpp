@@ -48,6 +48,7 @@ public:
 
 private:
     // Transport helpers
+    bool connect_locked();
     bool ensure_connected_locked();
     bool send_line_locked(const std::string& line);
     bool recv_line_locked(std::string& out_line);

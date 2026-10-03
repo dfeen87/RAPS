@@ -33,6 +33,9 @@ This repository provides a **flight-safety architecture and reference implementa
 
 **This software is NOT certified for operational flight use.** Production deployment requires a complete certification program including requirements traceability, verification, validation, hardware qualification, and regulatory compliance.
 
+**Current release: 4.0.0.** See the [BEDROCK release notes](docs/releases/4.0.0.md)
+for the hardened behavioral contracts, compatibility details, and validation limits.
+
 ---
 
 ## 📋 Table of Contents

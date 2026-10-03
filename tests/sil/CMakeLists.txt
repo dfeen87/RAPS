@@ -19,6 +19,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+function(raps_configure_test target)
+    target_include_directories(${target} PRIVATE
+        ${PROJECT_SOURCE_DIR}/../../include
+        ${PROJECT_SOURCE_DIR}/../../src
+    )
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+        target_compile_options(${target} PRIVATE
+            -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wno-unused-parameter
+            -UNDEBUG
+        )
+    endif()
+endfunction()
+
 # ------------------------------------------------------------
 # Test executable
 # ------------------------------------------------------------
@@ -195,3 +208,22 @@ add_test(
     NAME raps_sil_dsm_wnn_test
     COMMAND raps_sil_dsm_wnn_tests
 )
+
+add_executable(raps_sil_policy_tests test_mission_policy.cpp)
+raps_configure_test(raps_sil_policy_tests)
+add_test(NAME raps_sil_policy_test COMMAND raps_sil_policy_tests)
+
+find_package(Threads REQUIRED)
+add_executable(raps_sil_hil_tcp_tests
+    test_hil_tcp_device.cpp
+    ../../src/hil/hil_tcp_device.cpp
+    ../../src/hil/hil_device_interface.cpp
+)
+raps_configure_test(raps_sil_hil_tcp_tests)
+target_link_libraries(raps_sil_hil_tcp_tests PRIVATE Threads::Threads)
+add_test(NAME raps_sil_hil_tcp_test COMMAND raps_sil_hil_tcp_tests)
+set_tests_properties(raps_sil_hil_tcp_test PROPERTIES TIMEOUT 5)
+
+# Assertions in legacy behavioral tests remain active in Release builds.
+raps_configure_test(raps_sil_version_tests)
+raps_configure_test(raps_sil_stability_tests)

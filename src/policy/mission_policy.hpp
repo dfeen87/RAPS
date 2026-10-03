@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <chrono>
+#include <cmath>
 #include <limits>
 
 namespace apms::policy {
@@ -62,6 +63,15 @@ struct ScalarLimit {
     std::string label;
 
     PolicyResult evaluate(double value) const {
+        if (!std::isfinite(value) || std::isnan(min) ||
+            std::isnan(max) || min > max) {
+            return PolicyResult::violation(
+                severity,
+                label.empty()
+                    ? "Invalid scalar limit input or configuration"
+                    : ("Invalid scalar limit input or configuration: " + label)
+            );
+        }
         if (value < min || value > max) {
             return PolicyResult::violation(
                 severity,
@@ -89,7 +99,16 @@ struct SlewRateLimit {
                           Duration dt) const {
         const double secs =
             std::chrono::duration_cast<std::chrono::duration<double>>(dt).count();
-        if (secs <= 0.0) return PolicyResult::ok();
+        if (!std::isfinite(previous) || !std::isfinite(current) ||
+            std::isnan(max_delta_per_sec) || max_delta_per_sec < 0.0 ||
+            !std::isfinite(secs) || secs <= 0.0) {
+            return PolicyResult::violation(
+                severity,
+                label.empty()
+                    ? "Invalid slew-rate input or configuration"
+                    : ("Invalid slew-rate input or configuration: " + label)
+            );
+        }
 
         const double rate = std::abs(current - previous) / secs;
         if (rate > max_delta_per_sec) {
@@ -115,6 +134,14 @@ struct DurationLimit {
     std::string label;
 
     PolicyResult evaluate(Duration observed) const {
+        if (observed < Duration::zero() || max_duration < Duration::zero()) {
+            return PolicyResult::violation(
+                severity,
+                label.empty()
+                    ? "Invalid duration input or configuration"
+                    : ("Invalid duration input or configuration: " + label)
+            );
+        }
         if (observed > max_duration) {
             return PolicyResult::violation(
                 severity,
